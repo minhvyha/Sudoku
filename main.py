@@ -17,15 +17,16 @@ FPS = 60
 
 
 def main():
-    
+    isRun = True
     # Loop forever to draw up the window every second
-    while True:
+    while isRun:
         # Get any event from user such as mouse click, key pressed
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
+                isRun = False
                 break
         draw()
-
+    pygame.quit()
 
 #Function to draw the window
 def draw():
