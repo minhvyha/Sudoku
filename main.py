@@ -1,5 +1,5 @@
 import pygame
-import block
+import board
 
 pygame.init()
 
