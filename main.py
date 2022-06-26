@@ -1,5 +1,5 @@
 import pygame
-import board
+from board import Board
 
 pygame.init()
 
@@ -9,11 +9,14 @@ HEIGHT = 800
 WIN = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption('Sudoku')
 
-#GLOBAL VARIABLE
+# GLOBAL VARIABLE
 BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
 
 FPS = 60
+
+# Set up the board
+BOARD = Board(WIN)
 
 
 def main():
