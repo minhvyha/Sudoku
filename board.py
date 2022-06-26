@@ -1,5 +1,6 @@
 import pygame
 
+
 class Board:
     def __init__(self, WIN) -> None:
         # 9 x 9 sudoku board

@@ -31,6 +31,7 @@ def main():
         draw()
     pygame.quit()
 
+
 #Function to draw the window
 def draw():
     # Make changes to the window
@@ -39,6 +40,7 @@ def draw():
     # Update and display all the changes
 
     pygame.display.update()
+
 
 
 # Execute all the code
