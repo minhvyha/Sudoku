@@ -1,5 +1,5 @@
 <div align="center"><img src="app/src/main/res/mipmap-xhdpi/ic_launcher.png"></div>
-<h1 align="center">Soduku</h1>
+<h1 align="center">Sudoku</h1>
 <p align="center"><strong>Description</strong>
 <br>Comment</p>
 <br/>
