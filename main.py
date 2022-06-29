@@ -4,8 +4,8 @@ from board import Board
 pygame.init()
 
 # Window set up
-WIDTH = 700
-HEIGHT = 800
+WIDTH = 500
+HEIGHT = 500
 WIN = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption('Sudoku')
 
@@ -16,7 +16,7 @@ WHITE = (255, 255, 255)
 FPS = 60
 
 # Set up the board
-BOARD = Board(WIN)
+BOARD = Board(WIN, WIDTH, HEIGHT)
 
 
 def main():
@@ -36,7 +36,7 @@ def main():
 def draw():
     # Make changes to the window
     WIN.fill(WHITE)
-
+    BOARD.draw()
     # Update and display all the changes
 
     pygame.display.update()
@@ -45,4 +45,4 @@ def draw():
 
 # Execute all the code
 if __name__ == '__main__':
-    main()
+    main() 
