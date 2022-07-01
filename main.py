@@ -4,8 +4,10 @@ from board import Board
 pygame.init()
 
 # Window set up
-WIDTH = 500
-HEIGHT = 500
+WIDTH = 700
+HEIGHT = 700
+BOARD_WIDTH = 500
+BOARD_HEIGHT = 500
 WIN = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption('Sudoku')
 
@@ -16,7 +18,7 @@ WHITE = (255, 255, 255)
 FPS = 60
 
 # Set up the board
-BOARD = Board(WIN, WIDTH, HEIGHT)
+BOARD = Board(WIN, BOARD_WIDTH, BOARD_HEIGHT)
 
 
 def main():

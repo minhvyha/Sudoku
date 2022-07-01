@@ -1,6 +1,6 @@
 import pygame
 pygame.init()
-
+BORDER = 200
 RED = (255, 0, 0)
 GREEN = (60, 255, 0)
 BLUE = (0, 0, 255)
@@ -26,16 +26,19 @@ class Board:
 
     # Draw the board into the window
     def draw(self) -> None:
-        for i in range(9):
+        # Draw row
+        for i in range(10):
             thickness = 1
             if (i) % 3 == 0:
                 thickness = 3
-            pygame.draw.line(self.WIN, DGREY, (0, i * self.height / 9), (self.width, i * self.height / 9), thickness)
-        for i in range(9):
+            pygame.draw.line(self.WIN, DGREY, (0, i * self.height / 9 + BORDER), (self.width, i * self.height / 9 + BORDER), thickness)
+        
+        # Draw col
+        for i in range(10):
             thickness = 1
             if (i) % 3 == 0:
                 thickness = 3
-            pygame.draw.line(self.WIN, DGREY, (i * self.width / 9, 0), (i * self.width / 9, self.height), thickness)
+            pygame.draw.line(self.WIN, DGREY, (i * self.width / 9, BORDER), (i * self.width / 9, self.height + BORDER), thickness)
 
 class Block:
     def __init__(self, row, col):
