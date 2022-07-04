@@ -18,14 +18,14 @@ DGREY = (50, 50, 50)
 TURQUOISE = (64, 224, 208)
 
 # Font
-FONT = pygame.font.SysFont('comicsans', 10)
+FONT = pygame.font.SysFont('comicsans', 25)
 
 
 # An object 
 class Board:
     def __init__(self, WIN, width, height, padding) -> None:
         # 9 x 9 sudoku board
-        self.board = [[Block(WIN, row, col, width, height, padding) for row in range(1, 10)]for col in range(1, 10)]
+        self.board = [[Block(WIN, row, col, width, height, padding) for row in range(9)]for col in range(9)]
         # Get the reference for the window
         self.WIN = WIN
         self.width = width
@@ -41,7 +41,7 @@ class Board:
             thickness = 1
             if (i) % 3 == 0:
                 thickness = 3
-            pygame.draw.line(self.WIN, DGREY, (0, i * self.height / 9 + self.padding), (self.width, i * self.height / 9 + self.padding), thickness)
+            pygame.draw.line(self.WIN, DGREY, (0, i * self.height // 9 + self.padding), (self.width, i * self.height // 9 + self.padding), thickness)
         # (Window, color, starting position in (x, y), ending pos in x, y, thickness)
 
         # Draw col
@@ -49,7 +49,7 @@ class Board:
             thickness = 1
             if (i) % 3 == 0:
                 thickness = 3
-            pygame.draw.line(self.WIN, DGREY, (i * self.width / 9, self.padding), (i * self.width / 9, self.height + self.padding), thickness)
+            pygame.draw.line(self.WIN, DGREY, (i * self.width // 9, self.padding), (i * self.width // 9, self.height + self.padding), thickness)
 
         for i in self.board:
             for j in i:
@@ -66,7 +66,7 @@ class Block:
         self.value = 0
 
     def draw(self):
-        if self.value != -1:
+        if self.value != 0:
             num = FONT.render(f'{self.value}', 1, BLACK)
-            self.WIN.blit(num, (self.width // 9 * self.row - num.get_width(), self.padding + (self.height // 9 * self.col) - num.get_height()))
+            self.WIN.blit(num, (self.width // 9 * self.row + (self.width // 9 // 2) - num.get_width() // 2, self.padding + (self.height // 9) * self.col + self.height // 9 // 2 - num.get_height() // 2))
             
