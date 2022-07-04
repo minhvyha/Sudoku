@@ -1,6 +1,12 @@
 import pygame
+
 pygame.init()
-BORDER = 200
+
+
+#Padding
+PADDING = 200
+
+# Color
 RED = (255, 0, 0)
 GREEN = (60, 255, 0)
 BLUE = (0, 0, 255)
@@ -15,10 +21,13 @@ TURQUOISE = (64, 224, 208)
 
 
 
+
+# An object 
 class Board:
     def __init__(self, WIN, width, height) -> None:
         # 9 x 9 sudoku board
         self.board = [[0 for _ in range(9)] for _ in range(9)]
+
         # Get the reference for the window
         self.WIN = WIN
         self.width = width
@@ -26,19 +35,21 @@ class Board:
 
     # Draw the board into the window
     def draw(self) -> None:
+
         # Draw row
         for i in range(10):
             thickness = 1
             if (i) % 3 == 0:
                 thickness = 3
-            pygame.draw.line(self.WIN, DGREY, (0, i * self.height / 9 + BORDER), (self.width, i * self.height / 9 + BORDER), thickness)
-        
+            pygame.draw.line(self.WIN, DGREY, (0, i * self.height / 9 + PADDING), (self.width, i * self.height / 9 + PADDING), thickness)
+        # (Window, color, starting position in (x, y), ending pos in x, y, thickness)
+
         # Draw col
         for i in range(10):
             thickness = 1
             if (i) % 3 == 0:
                 thickness = 3
-            pygame.draw.line(self.WIN, DGREY, (i * self.width / 9, BORDER), (i * self.width / 9, self.height + BORDER), thickness)
+            pygame.draw.line(self.WIN, DGREY, (i * self.width / 9, PADDING), (i * self.width / 9, self.height + PADDING), thickness)
 
 class Block:
     def __init__(self, row, col):
