@@ -3,8 +3,6 @@ import pygame
 pygame.init()
 
 
-#Padding
-PADDING = 200
 
 # Color
 RED = (255, 0, 0)
@@ -19,19 +17,21 @@ GREY = (180, 180, 180)
 DGREY = (50, 50, 50)
 TURQUOISE = (64, 224, 208)
 
-
+# Font
+FONT = pygame.font.SysFont('comicsans', 10)
 
 
 # An object 
 class Board:
-    def __init__(self, WIN, width, height) -> None:
+    def __init__(self, WIN, width, height, padding) -> None:
         # 9 x 9 sudoku board
-        self.board = [[0 for _ in range(9)] for _ in range(9)]
-
+        self.board = [[Block(WIN, row, col, width, height, padding) for row in range(1, 10)]for col in range(1, 10)]
         # Get the reference for the window
         self.WIN = WIN
         self.width = width
         self.height = height
+
+        self.padding = padding
 
     # Draw the board into the window
     def draw(self) -> None:
@@ -41,7 +41,7 @@ class Board:
             thickness = 1
             if (i) % 3 == 0:
                 thickness = 3
-            pygame.draw.line(self.WIN, DGREY, (0, i * self.height / 9 + PADDING), (self.width, i * self.height / 9 + PADDING), thickness)
+            pygame.draw.line(self.WIN, DGREY, (0, i * self.height / 9 + self.padding), (self.width, i * self.height / 9 + self.padding), thickness)
         # (Window, color, starting position in (x, y), ending pos in x, y, thickness)
 
         # Draw col
@@ -49,12 +49,24 @@ class Board:
             thickness = 1
             if (i) % 3 == 0:
                 thickness = 3
-            pygame.draw.line(self.WIN, DGREY, (i * self.width / 9, PADDING), (i * self.width / 9, self.height + PADDING), thickness)
+            pygame.draw.line(self.WIN, DGREY, (i * self.width / 9, self.padding), (i * self.width / 9, self.height + self.padding), thickness)
+
+        for i in self.board:
+            for j in i:
+                j.draw()
 
 class Block:
-    def __init__(self, row, col):
+    def __init__(self, WIN, row, col, width, height, padding):
+        self.padding = padding
+        self.width = width
+        self.height = height
+        self.WIN = WIN
         self.row = row
         self.col = col
+        self.value = 0
 
     def draw(self):
-        pass
+        if self.value != -1:
+            num = FONT.render(f'{self.value}', 1, BLACK)
+            self.WIN.blit(num, (self.width // 9 * self.row - num.get_width(), self.padding + (self.height // 9 * self.col) - num.get_height()))
+            

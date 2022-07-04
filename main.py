@@ -12,6 +12,7 @@ BOARD_WIDTH = 500
 BOARD_HEIGHT = 500
 
 
+
 WIN = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption('Sudoku')
 
@@ -22,7 +23,9 @@ WHITE = (255, 255, 255)
 FPS = 60
 
 # Set up the board
-BOARD = Board(WIN, BOARD_WIDTH, BOARD_HEIGHT)
+BOARD = Board(WIN, BOARD_WIDTH, BOARD_HEIGHT, WIDTH - BOARD_WIDTH)
+
+
 
 
 def main():
@@ -33,7 +36,7 @@ def main():
         
         # Get any event from user such as mouse click, key pressed
 
-        # pygame.event.get() = [quit]
+        # pygame.event.get() = [click (50, 100)]
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 isRun = False
