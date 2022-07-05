@@ -66,7 +66,7 @@ class Block:
         self.value = 0
 
     def draw(self):
-        if self.value != 0:
+        if self.value != -1:
             num = FONT.render(f'{self.value}', 1, BLACK)
             self.WIN.blit(num, (self.width // 9 * self.row + (self.width // 9 // 2) - num.get_width() // 2, self.padding + (self.height // 9) * self.col + self.height // 9 // 2 - num.get_height() // 2))
             
