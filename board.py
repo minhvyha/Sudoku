@@ -65,7 +65,7 @@ class Board:
                 j.draw()
         
     def MakeSudoku(self):
-        difficulty = EASY
+        difficulty = MEDIUM
         for i in range(difficulty):
             #choose random numbers
             row = random.randrange(9)
