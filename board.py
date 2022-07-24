@@ -67,31 +67,33 @@ class Board:
     def MakeSudoku(self):
         difficulty = EASY
         for i in range(difficulty):
-                #choose random numbers
+            #choose random numbers
             row = random.randrange(9)
             col = random.randrange(9)
-            num = random.randrange(1,10)
-            while self.CheckValid(row,col,num) == False or self.board[row][col].value != 0: # if taken or not valid reroll
+            num = random.randrange(1, 10)
+
+            while self.CheckValid(row, col, num) == False or self.board[row][col].value != 0: # if taken or not valid reroll
                 row = random.randrange(9)
                 col = random.randrange(9)
-                num = random.randrange(1,10)
+                num = random.randrange(1, 10)
             self.board[row][col].value = num
 
-    def CheckValid(self,row,col,num):
-            #check if in row
-            #check row and collumn
+    def CheckValid(self, row, col, num):
+
         for x in range(9):
             if self.board[x][col].value == num:
                 return False
+                
         for y in range(9):
             if self.board[row][y].value == num:
                 return False
+
         rowsection = row // 3
         colsection = col // 3
+
         for x in range(3):
             for y in range(3):
-                    #check if section is valid
-                if self.board[rowsection*3 + x][colsection*3 + y].value == num:
+                if self.board[rowsection * 3 + x][colsection * 3 + y].value == num:
                     return False
         return True
 
