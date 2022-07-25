@@ -41,6 +41,11 @@ def main():
             if event.type == pygame.QUIT:
                 isRun = False
                 break
+            keys = pygame.key.get_pressed()
+            if pygame.mouse.get_pressed()[0]:
+                x, y = pygame.mouse.get_pos()
+                if x < BOARD_WIDTH - 5 and y > WIDTH - BOARD_WIDTH:
+                    BOARD.click(x, y)
         draw()
     pygame.quit()
 

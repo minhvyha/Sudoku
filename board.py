@@ -39,7 +39,7 @@ class Board:
         self.width = width
         self.height = height
         self.padding = padding
-
+        self.curr = None
         self.MakeSudoku()
 
     # Draw the board into the window
@@ -96,6 +96,14 @@ class Board:
                 if self.board[rowsection * 3 + x][colsection * 3 + y].value == num:
                     return False
         return True
+    
+    def click(self, x, y):
+        row = (y - self.padding) // (self.height // 9)
+        col = x // (self.width // 9)
+        if self.curr != None:
+            self.curr = (row, col)
+        else:
+            self.curr = None
 
 
 class Block:
