@@ -25,8 +25,7 @@ FPS = 60
 # Set up the board
 BOARD = Board(WIN, BOARD_WIDTH, BOARD_HEIGHT, WIDTH - BOARD_WIDTH)
 
-
-
+ERROR = 0
 
 def main():
     isRun = True
@@ -53,25 +52,26 @@ def main():
 
 
 def assign(keys):
+    global ERROR
     if keys[pygame.K_1]:
-        BOARD.assign(1)
+        ERROR += BOARD.assign(1)
     elif keys[pygame.K_2]:
-        BOARD.assign(2)
+        ERROR += BOARD.assign(2)
     elif keys[pygame.K_3]:
-        BOARD.assign(3)
+        ERROR += BOARD.assign(3)
     elif keys[pygame.K_4]:
-        BOARD.assign(4)
+        ERROR += BOARD.assign(4)
     elif keys[pygame.K_5]:
-        BOARD.assign(5)
+        ERROR += BOARD.assign(5)
     elif keys[pygame.K_6]:
-        BOARD.assign(6)
+        ERROR += BOARD.assign(6)
     elif keys[pygame.K_7]:
-        BOARD.assign(7)
+        ERROR += BOARD.assign(7)
     elif keys[pygame.K_8]:
-        BOARD.assign(8)
+        ERROR += BOARD.assign(8)
     elif keys[pygame.K_9]:
-        BOARD.assign(9)
-    
+        ERROR += BOARD.assign(9)
+    print(ERROR)
 
 
 #Function to draw the window

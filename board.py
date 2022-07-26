@@ -121,8 +121,11 @@ class Board:
     def assign(self, value):
         row, col = self.curr
         if self.board[row][col].lock:
-            return
+            return 0
+        if not self.CheckValid(row, col, value):
+            return 1
         self.board[row][col].value = value
+        return 0
 
 class Block:
     def __init__(self, WIN, row, col, width, height, padding, lock=False):
