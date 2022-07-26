@@ -1,3 +1,5 @@
+from re import X
+from tkinter import Y
 import pygame
 import random
 
@@ -63,6 +65,16 @@ class Board:
         for i in self.board:
             for j in i:
                 j.draw()
+
+        if self.curr != None:
+            row, col = self.curr
+            y = row * (self.height // 9) + self.padding + 1
+            x = col * (self.width // 9) + 3
+            pygame.draw.line(self.WIN, RED, (x, y), (x + self.width // 9, y), 3)
+            pygame.draw.line(self.WIN, RED, (x, y), (x, y + self.width // 9), 3)
+            pygame.draw.line(self.WIN, RED, (x + self.width // 9, y), (x + self.width // 9, y + self.width // 9), 3)
+            pygame.draw.line(self.WIN, RED, (x, y + self.width // 9), (x + self.width // 9, y + self.width // 9), 3)
+
         
     def MakeSudoku(self):
         difficulty = MEDIUM
@@ -77,6 +89,7 @@ class Board:
                 col = random.randrange(9)
                 num = random.randrange(1, 10)
             self.board[row][col].value = num
+            self.board[row][col].lock = True
 
     def CheckValid(self, row, col, num):
 
@@ -100,14 +113,19 @@ class Board:
     def click(self, x, y):
         row = (y - self.padding) // (self.height // 9)
         col = x // (self.width // 9)
-        if self.curr != None:
+        if self.curr != (row, col):
             self.curr = (row, col)
         else:
             self.curr = None
-
+    
+    def assign(self, value):
+        row, col = self.curr
+        if self.board[row][col].lock:
+            return
+        self.board[row][col].value = value
 
 class Block:
-    def __init__(self, WIN, row, col, width, height, padding):
+    def __init__(self, WIN, row, col, width, height, padding, lock=False):
         self.padding = padding
         self.width = width
         self.height = height
@@ -115,6 +133,8 @@ class Block:
         self.row = row
         self.col = col
         self.value = 0
+        self.lock = lock
+
 
     def draw(self):
         if self.value != 0:
