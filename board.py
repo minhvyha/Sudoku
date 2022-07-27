@@ -138,7 +138,7 @@ class Block:
         self.col = col
         self.value = 0
         self.lock = lock
-
+        self.error = None
     def draw(self):
         if self.value != 0:
             num = FONT.render(f'{self.value}', 1, BLACK)
