@@ -122,7 +122,12 @@ class Board:
         row, col = self.curr
         if self.board[row][col].lock:
             return 0
+        if self.board[row][col].value == value:
+            return 0
         if not self.CheckValid(row, col, value):
+            if self.board[row][col].error == value:
+                return 0
+            self.board[row][col].error = value
             return 1
         self.board[row][col].value = value
         return 0
@@ -139,6 +144,7 @@ class Block:
         self.value = 0
         self.lock = lock
         self.error = None
+
     def draw(self):
         if self.value != 0:
             num = FONT.render(f'{self.value}', 1, BLACK)

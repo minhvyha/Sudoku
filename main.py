@@ -75,6 +75,7 @@ def assign(keys):
         ERROR += BOARD.assign(8)
     elif keys[pygame.K_9]:
         ERROR += BOARD.assign(9)
+    print(ERROR)
 
 #Function to draw the window
 def draw():
