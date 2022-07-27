@@ -110,7 +110,7 @@ class Board:
                     return False
         return True
     
-    def click(self, x, y):
+    def select(self, x, y):
         row = (y - self.padding) // (self.height // 9)
         col = x // (self.width // 9)
         if self.curr != (row, col):
@@ -127,6 +127,7 @@ class Board:
         self.board[row][col].value = value
         return 0
 
+
 class Block:
     def __init__(self, WIN, row, col, width, height, padding, lock=False):
         self.padding = padding
@@ -137,7 +138,6 @@ class Block:
         self.col = col
         self.value = 0
         self.lock = lock
-
 
     def draw(self):
         if self.value != 0:

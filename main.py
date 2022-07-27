@@ -29,34 +29,38 @@ ERROR = 0
 
 def main():
     isRun = True
+    clock = pygame.time.Clock()
     # Loop forever to draw up the window every second
     while isRun:
         
         # Get any event from user such as mouse click, key pressed
-
+        clock.tick(FPS)
         # pygame.event.get() = [click (50, 100)]
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 isRun = False
                 break
+            
             keys = pygame.key.get_pressed()
-            if BOARD.curr != None and keys:
+
+            if (BOARD.curr != None) and (keys):
                 assign(keys)
+
             if pygame.mouse.get_pressed()[0]:
                 x, y = pygame.mouse.get_pos()
                 if x < BOARD_WIDTH - 5 and y > WIDTH - BOARD_WIDTH:
-                    BOARD.click(x, y)
+                    BOARD.select(x, y)
         draw()
     pygame.quit()
 
 
-
+# keys = [1]
 def assign(keys):
     global ERROR
     if keys[pygame.K_1]:
         ERROR += BOARD.assign(1)
     elif keys[pygame.K_2]:
-        ERROR += BOARD.assign(2)
+        ERROR += BOARD.assign(2) 
     elif keys[pygame.K_3]:
         ERROR += BOARD.assign(3)
     elif keys[pygame.K_4]:
@@ -71,8 +75,6 @@ def assign(keys):
         ERROR += BOARD.assign(8)
     elif keys[pygame.K_9]:
         ERROR += BOARD.assign(9)
-    print(ERROR)
-
 
 #Function to draw the window
 def draw():
