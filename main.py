@@ -11,7 +11,7 @@ HEIGHT = 700
 BOARD_WIDTH = 500
 BOARD_HEIGHT = 500
 
-
+FONT = pygame.font.SysFont('comicsans', 30)
 
 WIN = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption('Sudoku')
@@ -84,7 +84,7 @@ def draw():
     # Make changes to the window
     WIN.fill((WHITE))
     BOARD.draw()
-
+    
     # Update and display all the changes
     pygame.display.update()
 
