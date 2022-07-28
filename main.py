@@ -20,7 +20,7 @@ pygame.display.set_caption('Sudoku')
 BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
 
-FPS = 60
+FPS = 30
 
 # Set up the board
 BOARD = Board(WIN, BOARD_WIDTH, BOARD_HEIGHT, WIDTH - BOARD_WIDTH)
@@ -28,6 +28,7 @@ BOARD = Board(WIN, BOARD_WIDTH, BOARD_HEIGHT, WIDTH - BOARD_WIDTH)
 ERROR = 0
 
 def main():
+    isSleep = False
     isRun = True
     clock = pygame.time.Clock()
     # Loop forever to draw up the window every second
@@ -48,10 +49,13 @@ def main():
 
             if pygame.mouse.get_pressed()[0]:
                 x, y = pygame.mouse.get_pos()
-                if x < BOARD_WIDTH - 5 and y > WIDTH - BOARD_WIDTH:
+                if x < BOARD_WIDTH - 5 and y > WIDTH - BOARD_WIDTH - 2:
                     BOARD.select(x, y)
+                    isSleep = True
+            
         draw()
-        if pygame.mouse.get_pressed()[0] or keys:
+        if isSleep:
+            isSleep = False
             time.sleep(0.2)
     pygame.quit()
 
@@ -89,17 +93,25 @@ def draw():
 
     if BOARD.curr:
         row, col = BOARD.curr
-        ver = pygame.Surface((500,500 // 9))
-        hor = pygame.Surface((500 // 9,500))
 
-        hor.set_alpha(75)
+        hor = pygame.Surface((500,500 // 9))
+        ver = pygame.Surface((500 // 9,500))
+        box = pygame.Surface((500 // 3, 500 // 3))
+
+        box.set_alpha(80)
+        box.fill((200, 230, 255))
+
+        hor.set_alpha(80)
         hor.fill((197,226,255))   
         
-        ver.set_alpha(75)
+        ver.set_alpha(80)
         ver.fill((197,226,255)) 
-
-        WIN.blit(hor, (BOARD_WIDTH // 9 * col, WIDTH - BOARD_WIDTH))
-        WIN.blit(ver, (0, BOARD_WIDTH // 9 * row + WIDTH - BOARD_WIDTH))
+        
+        box_col = col //3
+        box_row = row // 3
+        WIN.blit(box, (BOARD_WIDTH // 3 * box_col, + BOARD_WIDTH // 3 * box_row + WIDTH - BOARD_WIDTH))
+        WIN.blit(ver, (BOARD_WIDTH // 9 * col + 2.5, WIDTH - BOARD_WIDTH))
+        WIN.blit(hor, (0, BOARD_WIDTH // 9 * row + WIDTH - BOARD_WIDTH))
     BOARD.draw()
     error = FONT.render(f'Error: {ERROR}', 1, BLACK)
     WIN.blit(error, (10, 10))

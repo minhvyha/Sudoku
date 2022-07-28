@@ -51,8 +51,8 @@ class Board:
             y = row * (self.height // 9) + self.padding + 1
             x = col * (self.width // 9) + 3
             box = pygame.Surface((500 // 9,500 // 9))
-            box.set_alpha(95)
-            box.fill((197,226,255))   
+            box.set_alpha(200)
+            box.fill((175,205,255))   
             self.WIN.blit(box, (x, y))
         # Draw row
         for i in range(10):
@@ -113,10 +113,8 @@ class Board:
     def select(self, x, y):
         row = (y - self.padding) // (self.height // 9)
         col = x // (self.width // 9)
-        if self.curr != (row, col):
-            self.curr = (row, col)
-        else:
-            self.curr = None
+        self.curr = (row, col)
+
     
     def assign(self, value):
         row, col = self.curr
