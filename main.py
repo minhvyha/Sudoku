@@ -77,6 +77,7 @@ def assign(keys):
         ERROR += BOARD.assign(9)
     print(ERROR)
 
+
 #Function to draw the window
 def draw():
 
