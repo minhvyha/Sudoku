@@ -1,6 +1,6 @@
 import pygame
 from board import Board
-
+import time
 
 # initialize pygame library
 pygame.init() 
@@ -51,6 +51,8 @@ def main():
                 if x < BOARD_WIDTH - 5 and y > WIDTH - BOARD_WIDTH:
                     BOARD.select(x, y)
         draw()
+        if pygame.mouse.get_pressed()[0] or keys:
+            time.sleep(0.2)
     pygame.quit()
 
 
@@ -75,16 +77,37 @@ def assign(keys):
         ERROR += BOARD.assign(8)
     elif keys[pygame.K_9]:
         ERROR += BOARD.assign(9)
-    print(ERROR)
 
 
 #Function to draw the window
 def draw():
-
+      
+    
     # Make changes to the window
     WIN.fill((WHITE))
+
+
+    if BOARD.curr:
+        row, col = BOARD.curr
+        ver = pygame.Surface((500,500 // 9))
+        hor = pygame.Surface((500 // 9,500))
+
+        hor.set_alpha(75)
+        hor.fill((197,226,255))   
+        
+        ver.set_alpha(75)
+        ver.fill((197,226,255)) 
+
+        WIN.blit(hor, (BOARD_WIDTH // 9 * col, WIDTH - BOARD_WIDTH))
+        WIN.blit(ver, (0, BOARD_WIDTH // 9 * row + WIDTH - BOARD_WIDTH))
     BOARD.draw()
+    error = FONT.render(f'Error: {ERROR}', 1, BLACK)
+    WIN.blit(error, (10, 10))
+
+
     
+
+
     # Update and display all the changes
     pygame.display.update()
 

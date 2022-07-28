@@ -46,7 +46,14 @@ class Board:
 
     # Draw the board into the window
     def draw(self) -> None:
-
+        if self.curr != None:
+            row, col = self.curr
+            y = row * (self.height // 9) + self.padding + 1
+            x = col * (self.width // 9) + 3
+            box = pygame.Surface((500 // 9,500 // 9))
+            box.set_alpha(95)
+            box.fill((197,226,255))   
+            self.WIN.blit(box, (x, y))
         # Draw row
         for i in range(10):
             thickness = 1
@@ -66,14 +73,7 @@ class Board:
             for j in i:
                 j.draw()
 
-        if self.curr != None:
-            row, col = self.curr
-            y = row * (self.height // 9) + self.padding + 1
-            x = col * (self.width // 9) + 3
-            pygame.draw.line(self.WIN, RED, (x, y), (x + self.width // 9, y), 3)
-            pygame.draw.line(self.WIN, RED, (x, y), (x, y + self.width // 9), 3)
-            pygame.draw.line(self.WIN, RED, (x + self.width // 9, y), (x + self.width // 9, y + self.width // 9), 3)
-            pygame.draw.line(self.WIN, RED, (x, y + self.width // 9), (x + self.width // 9, y + self.width // 9), 3)
+        
 
         
     def MakeSudoku(self):
