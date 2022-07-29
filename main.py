@@ -49,7 +49,7 @@ def main():
 
             if pygame.mouse.get_pressed()[0]:
                 x, y = pygame.mouse.get_pos()
-                if x < BOARD_WIDTH - 5 and y > WIDTH - BOARD_WIDTH - 2:
+                if x < BOARD_WIDTH - 5 and y > WIDTH - BOARD_WIDTH - 2 and y < WIDTH - 5:
                     BOARD.select(x, y)
                     isSleep = True
             
@@ -111,7 +111,7 @@ def draw():
         box_row = row // 3
         WIN.blit(box, (BOARD_WIDTH // 3 * box_col, + BOARD_WIDTH // 3 * box_row + WIDTH - BOARD_WIDTH))
         WIN.blit(ver, (BOARD_WIDTH // 9 * col + 2.5, WIDTH - BOARD_WIDTH))
-        WIN.blit(hor, (0, BOARD_WIDTH // 9 * row + WIDTH - BOARD_WIDTH))
+        WIN.blit(hor, (0, BOARD_WIDTH // 9 * row + WIDTH - BOARD_WIDTH + 3))
     BOARD.draw()
     error = FONT.render(f'Error: {ERROR}', 1, BLACK)
     WIN.blit(error, (10, 10))

@@ -48,12 +48,22 @@ class Board:
     def draw(self) -> None:
         if self.curr != None:
             row, col = self.curr
-            y = row * (self.height // 9) + self.padding + 1
-            x = col * (self.width // 9) + 3
-            box = pygame.Surface((500 // 9,500 // 9))
+            y = row * (self.height // 9) + self.padding + row * 0.35
+            x = col * (self.width // 9) + col * 0.35
+            box = pygame.Surface((500 // 9 + 1,500 // 9 + 1))
             box.set_alpha(200)
-            box.fill((175,205,255))   
+            box.fill((175,205,255))
             self.WIN.blit(box, (x, y))
+            if self.board[row][col].value != 0:
+                value = self.board[row][col].value
+                for i, row in enumerate(self.board):
+                    for j, block in enumerate(row):
+                        if block.value == value:
+                            x = j * (self.width // 9) + j * 0.3
+                            y = i * (self.height // 9) + self.padding + i * 0.3
+                            self.WIN.blit(box, (x, y))
+
+
         # Draw row
         for i in range(10):
             thickness = 1
