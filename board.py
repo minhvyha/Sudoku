@@ -24,9 +24,9 @@ TURQUOISE = (64, 224, 208)
 
 # Difficulty
 
-EASY = 28
-MEDIUM = 22
-HARD = 17
+EASY = 36
+MEDIUM = 28
+HARD = 19
 # Font
 FONT = pygame.font.SysFont('comicsans', 25)
 
