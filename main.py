@@ -16,6 +16,9 @@ FONT = pygame.font.SysFont('comicsans', 30)
 WIN = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption('Sudoku')
 
+
+BACKGROUND = pygame.image.load('assets/start.png')
+
 # GLOBAL VARIABLE
 BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
@@ -30,6 +33,7 @@ ERROR = 0
 def main():
     isSleep = False
     isRun = True
+    isStart = False
     clock = pygame.time.Clock()
     # Loop forever to draw up the window every second
     while isRun:
@@ -44,15 +48,17 @@ def main():
             
             keys = pygame.key.get_pressed()
 
-            if (BOARD.curr != None) and (keys):
+            if (BOARD.curr != None) and (keys) and isStart:
                 assign(keys)
 
-            if pygame.mouse.get_pressed()[0]:
+            if pygame.mouse.get_pressed()[0] and isStart:
                 x, y = pygame.mouse.get_pos()
                 if x < BOARD_WIDTH - 5 and y > WIDTH - BOARD_WIDTH - 2 and y < WIDTH - 5:
                     BOARD.select(x, y)
                     isSleep = True
-            
+        if not isStart:
+            draw_start()
+            continue
         draw()
         if isSleep:
             isSleep = False
@@ -123,6 +129,11 @@ def draw():
     # Update and display all the changes
     pygame.display.update()
 
+
+def draw_start():
+    WIN.blit(BACKGROUND, (0, 0))
+
+    pygame.display.update()
 
 
 # Execute all the code
