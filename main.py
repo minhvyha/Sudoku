@@ -1,9 +1,12 @@
 import pygame
 from board import Board
 import time
+from button import Button
 
 # initialize pygame library
 pygame.init() 
+
+pygame.display.set_caption('Sudoku')
 
 # Window set up
 WIDTH = 700
@@ -11,24 +14,42 @@ HEIGHT = 700
 BOARD_WIDTH = 500
 BOARD_HEIGHT = 500
 
+# Board
+WIN = pygame.display.set_mode((WIDTH, HEIGHT))
+
+RED = (255, 0, 0)
+GREEN = (60, 255, 0)
+BLUE = (0, 0, 255)
+YELLOW = (255, 255, 120)
+WHITE = (255, 255, 255)
+BLACK = (0, 0, 0)
+PURPLE = (128, 0, 128)
+ORANGE = (255, 165, 0)
+GREY = (180, 180, 180)
+DGREY = (75, 75, 75)
+TURQUOISE = (64, 224, 208)
+
+
 FONT = pygame.font.SysFont('comicsans', 30)
 
-WIN = pygame.display.set_mode((WIDTH, HEIGHT))
-pygame.display.set_caption('Sudoku')
+# Start button
+easy_button = Button(WIN, (DGREY), GREEN, WIDTH // 2, 180, 200, 70, 'Easy')
+medium_button = Button(WIN, (DGREY), ORANGE, WIDTH // 2, 270, 200, 70, 'Medium')
+hard_button = Button(WIN, (DGREY), RED, WIDTH // 2, 360, 200, 70, 'Hard')
 
+# In-game button
+new = Button(WIN, (WHITE), BLACK, BOARD_WIDTH + 100, 540, 150, 60, 'New Game')
+check = Button(WIN, (WHITE), BLACK, BOARD_WIDTH + 100, 625, 150, 60, 'Check')
 
 BACKGROUND = pygame.image.load('assets/start.png')
-
-# GLOBAL VARIABLE
-BLACK = (0, 0, 0)
-WHITE = (255, 255, 255)
-
-FPS = 30
 
 # Set up the board
 BOARD = Board(WIN, BOARD_WIDTH, BOARD_HEIGHT, WIDTH - BOARD_WIDTH)
 
+FPS = 30
+MODE = None
 ERROR = 0
+
 
 def main():
     isSleep = False
@@ -40,6 +61,7 @@ def main():
         
         # Get any event from user such as mouse click, key pressed
         clock.tick(FPS)
+        mouse = pygame.mouse.get_pos()
         # pygame.event.get() = [click (50, 100)]
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -51,11 +73,29 @@ def main():
             if (BOARD.curr != None) and (keys) and isStart:
                 assign(keys)
 
-            if pygame.mouse.get_pressed()[0] and isStart:
-                x, y = pygame.mouse.get_pos()
+            if pygame.mouse.get_pressed()[0]:
+                
+                if not isStart:
+                    if easy_button.isOver(mouse):
+                        MODE = 23
+                        isStart = True
+                    elif medium_button.isOver(mouse):
+                        MODE = 20
+                        isStart = True
+                    elif hard_button.isOver(mouse):
+                        MODE = 17
+                        isStart = True
+                    if MODE:
+                        BOARD.MakeSudoku(MODE)
+                    continue
+                
+                x, y = mouse
                 if x < BOARD_WIDTH - 5 and y > WIDTH - BOARD_WIDTH - 2 and y < WIDTH - 5:
                     BOARD.select(x, y)
                     isSleep = True
+                else:
+                    if new.isOver(mouse):
+                        BOARD.MakeSudoku(MODE)
         if not isStart:
             draw_start()
             continue
@@ -120,6 +160,8 @@ def draw():
         WIN.blit(hor, (0, BOARD_WIDTH // 9 * row + WIDTH - BOARD_WIDTH + 3))
     BOARD.draw()
     error = FONT.render(f'Error: {ERROR}', 1, BLACK)
+    new.draw(BLACK)
+    check.draw(BLACK)
     WIN.blit(error, (10, 10))
 
 
@@ -133,7 +175,16 @@ def draw():
 def draw_start():
     WIN.blit(BACKGROUND, (0, 0))
 
+    easy_button.draw()
+    medium_button.draw()
+    hard_button.draw()
+
+
     pygame.display.update()
+
+
+def lose():
+    draw()
 
 
 # Execute all the code

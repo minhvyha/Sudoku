@@ -1,5 +1,3 @@
-from re import X
-from tkinter import Y
 import pygame
 import random
 
@@ -22,11 +20,7 @@ TURQUOISE = (64, 224, 208)
 
 
 
-# Difficulty
 
-EASY = 36
-MEDIUM = 28
-HARD = 19
 # Font
 FONT = pygame.font.SysFont('comicsans', 25)
 
@@ -42,7 +36,6 @@ class Board:
         self.height = height
         self.padding = padding
         self.curr = None
-        self.MakeSudoku()
 
     # Draw the board into the window
     def draw(self) -> None:
@@ -86,8 +79,8 @@ class Board:
         
 
         
-    def MakeSudoku(self):
-        difficulty = MEDIUM
+    def MakeSudoku(self, difficulty):
+        self.reset()
         for i in range(difficulty):
             #choose random numbers
             row = random.randrange(9)
@@ -139,6 +132,11 @@ class Board:
             return 1
         self.board[row][col].value = value
         return 0
+
+    def reset(self):
+        for i in self.board:
+            for j in i:
+                j.value = 0
 
 
 class Block:
