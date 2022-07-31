@@ -136,6 +136,7 @@ class Board:
     def reset(self):
         for i in self.board:
             for j in i:
+                j.lock = False
                 j.value = 0
 
 
