@@ -1,7 +1,7 @@
 import pygame
 from board import Board
 import time
-from button import Button
+from button import Button, Pause
 from pygame import mixer
 
 # initialize pygame library
@@ -42,6 +42,7 @@ hard_button = Button(WIN, (DGREY), RED, WIDTH // 2, 390, 200, 70, 'Hard')
 # In-game button
 new = Button(WIN, (WHITE), BLACK, BOARD_WIDTH + 100, 540, 150, 60, 'New Game')
 check = Button(WIN, (WHITE), BLACK, BOARD_WIDTH + 100, 625, 150, 60, 'Check')
+pause = Pause(WIN, 650, 20, 50)
 
 BACKGROUND = pygame.image.load('assets/img/start.png')
 
@@ -56,12 +57,14 @@ mixer.music.load('assets/music/background.wav')
 mixer.music.play(-1)
 
 def main():
+    global MODE
     global ERROR
     isSleep = False
     isRun = True
     isStart = False
     clock = pygame.time.Clock()
     isWin = None
+    isPause = False
     # Loop forever to draw up the window every second
     while isRun:
         
@@ -183,6 +186,7 @@ def draw():
     error = FONT.render(f'Error: {ERROR}', 1, BLACK)
     new.draw(BLACK)
     check.draw(BLACK)
+    pause.draw()
     WIN.blit(error, (10, 10))
     # Update and display all the changes
     pygame.display.update()

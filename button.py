@@ -45,3 +45,24 @@ class Button():
                 return True
             
         return False
+
+
+class Pause():
+    def __init__(self, WIN, x, y, side) -> None:
+        self.x = x
+        self.y = y
+        self.side = side
+        self.WIN = WIN
+
+    def draw(self):
+        pygame.draw.rect(self.WIN, BLACK, (self.x - 2 - self.side // 2, self.y - 2, self.side+4, self.side+4), 0)
+        pygame.draw.rect(self.WIN, WHITE, (self.x - self.side // 2, self.y, self.side, self.side),0)
+        pygame.draw.rect(self.WIN, BLACK, (self.x - self.side // 2 + self.side // 4 - 1, self.y + 8.5 , 8, 35))
+        pygame.draw.rect(self.WIN, BLACK, (self.x - self.side // 2 + self.side * 3 // 4 - 7, self.y + 8.5 , 8, 35))
+    def isOver(self, pos):
+        #Pos is the mouse position or a tuple of (x,y) coordinates
+        if pos[0] > self.x - self.side // 2 and pos[0] < self.x + self.side - self.side // 2:
+            if pos[1] > self.y and pos[1] < self.y + self.side:
+                return True
+            
+        return False
