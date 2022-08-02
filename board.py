@@ -39,46 +39,11 @@ class Board:
 
     # Draw the board into the window
     def draw(self) -> None:
-        if self.curr != None:
-            row, col = self.curr
-            y = row * (self.height // 9) + self.padding + row * 0.35
-            x = col * (self.width // 9) + col * 0.35
-            box = pygame.Surface((500 // 9 + 1,500 // 9 + 1))
-            box.set_alpha(200)
-            box.fill((175,205,255))
-            self.WIN.blit(box, (x, y))
-            if self.board[row][col].value != 0:
-                value = self.board[row][col].value
-                for i, row in enumerate(self.board):
-                    for j, block in enumerate(row):
-                        if block.value == value:
-                            x = j * (self.width // 9) + j * 0.3
-                            y = i * (self.height // 9) + self.padding + i * 0.3
-                            self.WIN.blit(box, (x, y))
-
-
-        # Draw row
-        for i in range(10):
-            thickness = 1
-            if (i) % 3 == 0:
-                thickness = 3
-            pygame.draw.line(self.WIN, DGREY, (0, i * self.height // 9 + self.padding), (self.width, i * self.height // 9 + self.padding), thickness)
-        # (Window, color, starting position in (x, y), ending pos in x, y, thickness)
-
-        # Draw col
-        for i in range(10):
-            thickness = 1
-            if (i) % 3 == 0:
-                thickness = 3
-            pygame.draw.line(self.WIN, DGREY, (i * self.width // 9, self.padding), (i * self.width // 9, self.height + self.padding), thickness)
-
-        for i in self.board:
-            for j in i:
-                j.draw()
-
-        
-
-        
+        self.draw_select()
+        self.error()
+        self.draw_grid()
+        self.draw_board()
+     
     def MakeSudoku(self, difficulty):
         self.reset()
         for i in range(difficulty):
@@ -129,8 +94,10 @@ class Board:
             if self.board[row][col].error == value:
                 return 0
             self.board[row][col].error = value
+            self.board[row][col].value = value
             return 1
         self.board[row][col].value = value
+        self.board[row][col].error = None
         return 0
 
     def reset(self):
@@ -138,6 +105,63 @@ class Board:
             for j in i:
                 j.lock = False
                 j.value = 0
+
+    def draw_select(self):
+        if self.curr != None:
+            row, col = self.curr
+            y = row * (self.height // 9) + self.padding + row * 0.45
+            x = col * (self.width // 9) + col * 0.45
+            box = pygame.Surface((500 // 9 + 1,500 // 9 + 1))
+            box.set_alpha(200)
+            box.fill((175,205,255))
+
+            if self.board[row][col].value != 0:
+                value = self.board[row][col].value
+                for i, row in enumerate(self.board):
+                    for j, block in enumerate(row):
+                        if block.value == value:
+                            x = j * (self.width // 9) + j * 0.45
+                            y = i * (self.height // 9) + self.padding + i * 0.45
+                            self.WIN.blit(box, (x, y))
+
+    def error(self):
+            white_box = pygame.Surface((500 // 9 + 1,500 // 9 + 1))
+            white_box.set_alpha(500)
+            white_box.fill((255,255,255))
+
+            box = pygame.Surface((500 // 9 + 1,500 // 9 + 1))
+            box.set_alpha(100)
+            box.fill((235,0,0)) 
+
+            for i, row in enumerate(self.board):
+                for j, block in enumerate(row):
+                    if block.error:
+                        x = j * (self.width // 9) + j * 0.45
+                        y = i * (self.height // 9) + self.padding + i * 0.45
+                        self.WIN.blit(white_box, (x, y))
+                        self.WIN.blit(box, (x, y))
+            
+    def draw_board(self):
+        for i in self.board:
+            for j in i:
+                j.draw()
+
+    def draw_grid(self):
+        # Draw row
+        for i in range(10):
+            thickness = 1
+            if (i) % 3 == 0:
+                thickness = 3
+            pygame.draw.line(self.WIN, DGREY, (0, i * self.height // 9 + self.padding), (self.width, i * self.height // 9 + self.padding), thickness)
+        # (Window, color, starting position in (x, y), ending pos in x, y, thickness)
+
+        # Draw col
+        for i in range(10):
+            thickness = 1
+            if (i) % 3 == 0:
+                thickness = 3
+            pygame.draw.line(self.WIN, DGREY, (i * self.width // 9, self.padding), (i * self.width // 9, self.height + self.padding), thickness)
+
 
 
 class Block:
@@ -156,3 +180,5 @@ class Block:
         if self.value != 0:
             num = FONT.render(f'{self.value}', 1, BLACK)
             self.WIN.blit(num, (self.width // 9 * self.row + (self.width // 9 // 2) - num.get_width() // 2, self.padding + (self.height // 9) * self.col + self.height // 9 // 2 - num.get_height() // 2))
+
+
