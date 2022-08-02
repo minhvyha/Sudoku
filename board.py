@@ -1,6 +1,7 @@
-from turtle import color
 import pygame
 import random
+import time
+
 
 pygame.init()
 
@@ -48,12 +49,13 @@ class Board:
      
     
 
-    def MakeSudoku(self, difficulty):
-        self.makeBoard(difficulty)
-        while not self.solveSudoku(81 - difficulty):
-            self.makeBoard(difficulty)
+    def MakeSudoku(self, difficulty, isDraw):
+        self.makeBoard(difficulty, isDraw)
+        while not self.solveSudoku(False):
+            self.makeBoard(difficulty, isDraw)
+        self.default()
     
-    def makeBoard(self, difficulty):
+    def makeBoard(self, difficulty, isDraw):
         self.reset()
         for i in range(difficulty):
             #choose random numbers
@@ -67,6 +69,12 @@ class Board:
                 num = random.randrange(1, 10)
             self.board[row][col].value = num
             self.board[row][col].lock = True
+            if isDraw:
+                time.sleep(0.0001)
+                self.WIN.fill((255, 255, 255))
+                self.draw_grid()
+                self.draw_board()
+                pygame.display.update()
 
     def CheckValid(self, row, col, num):
 
@@ -181,26 +189,45 @@ class Board:
                 thickness = 3
             pygame.draw.line(self.WIN, DGREY, (i * self.width // 9, self.padding), (i * self.width // 9, self.height + self.padding), thickness)
 
-    def solveSudoku(self, empty):
-        return self.solution(empty)
+    def solveSudoku(self, isDraw):
+        empty = 0
+        for i in self.board:
+            for j in i:
+                if j.value == 0:
+                    empty += 1
+        return self.solution(isDraw, empty)
 
         
-    def solution(self, empty, row=0, col=0):
+    def solution(self, isDraw, empty, row=0, col=0):
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
         if empty == 0:
             return True
         if self.board[row][col].value != 0:
-            if self.solution(empty, row=row + 1 if col == 8 else row, col=col + 1 if col != 8 else 0):
+            if self.solution(isDraw ,empty, row=row + 1 if col == 8 else row, col=col + 1 if col != 8 else 0):
                 return True
             return False
 
         for i in range(1, 10):
             if self.CheckValid(row, col, i):
                 self.board[row][col].value = i
-                if self.solution(empty - 1, row=row + 1 if col == 8 else row, col=col + 1 if col != 8 else 0):
+                if isDraw:
+                    time.sleep(0.03)
+                    self.WIN.fill((255, 255, 255))
+                    self.draw_grid()
+                    self.draw_board()
+                    pygame.display.update()
+                if self.solution(isDraw ,empty - 1, row=row + 1 if col == 8 else row, col=col + 1 if col != 8 else 0):
                     return True
         self.board[row][col].value = 0
         return False
 
+    def default(self):
+        for i in self.board:
+            for j in i:
+                if not j.lock:
+                    j.value = 0
 
 class Block:
     def __init__(self, WIN, row, col, width, height, padding, lock=False):

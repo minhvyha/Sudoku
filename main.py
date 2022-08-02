@@ -103,7 +103,7 @@ def main():
                         MODE = 24
                     if MODE:
                         isStart = True
-                        BOARD.MakeSudoku(MODE)
+                        BOARD.MakeSudoku(MODE, False)
                     continue
                 if isWin != None:
                     if easy_button.isOver(mouse):
@@ -114,7 +114,7 @@ def main():
                         MODE = 24
                     if MODE:
                         isWin = None
-                        BOARD.MakeSudoku(MODE)
+                        BOARD.MakeSudoku(MODE, False)
                         ERROR = 0
                     continue
 
@@ -124,11 +124,11 @@ def main():
                     isSleep = True
                 else:
                     if new.isOver(mouse):
-                        BOARD.MakeSudoku(MODE)
+                        BOARD.MakeSudoku(MODE, True)
                     elif pause.isOver(mouse):
                         isPause = True
                     elif check.isOver(mouse):
-                        BOARD.solveSudoku()
+                        BOARD.solveSudoku(True)
         if ERROR >= 3:
             isWin = False
             MODE = None
