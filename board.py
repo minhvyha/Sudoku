@@ -46,7 +46,14 @@ class Board:
         self.draw_grid()
         self.draw_board()
      
+    
+
     def MakeSudoku(self, difficulty):
+        self.makeBoard(difficulty)
+        while not self.solveSudoku():
+            self.makeBoard(difficulty)
+    
+    def makeBoard(self, difficulty):
         self.reset()
         for i in range(difficulty):
             #choose random numbers
@@ -174,6 +181,32 @@ class Board:
                 thickness = 3
             pygame.draw.line(self.WIN, DGREY, (i * self.width // 9, self.padding), (i * self.width // 9, self.height + self.padding), thickness)
 
+    def solveSudoku(self):
+        empty = 0
+        for i in self.board:
+            for j in i:
+                if j.value != 0:
+                    empty += 1
+        haveSolution = self.solution(empty)
+        print(haveSolution)
+        return haveSolution
+
+        
+    def solution(self, empty, row=0, col=0):
+        if empty == 0:
+            return True
+        if self.board[row][col].value!= 0:
+            if self.solution(empty, row=row + 1 if col == 8 else row, col=col + 1 if col != 8 else 0):
+                return True
+            return
+
+        for i in range(1, 10):
+            if self.CheckValid(row, col, i):
+                self.board[row][col].value = i
+                if self.solution(empty - 1, row=row + 1 if col == 8 else row, col=col + 1 if col != 8 else 0):
+                    return True
+        self.board[row][col].value = 0
+        return False
 
 
 class Block:

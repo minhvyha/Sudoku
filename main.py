@@ -127,6 +127,8 @@ def main():
                         BOARD.MakeSudoku(MODE)
                     elif pause.isOver(mouse):
                         isPause = True
+                    elif check.isOver(mouse):
+                        BOARD.solveSudoku()
         if ERROR >= 3:
             isWin = False
             MODE = None
