@@ -87,6 +87,12 @@ def main():
                 assign(keys)
 
             if pygame.mouse.get_pressed()[0]:
+                if isPause:
+                    if resume.isOver(mouse):
+                        isPause = False
+                    if quit_button.isOver(mouse):
+                        isRun = False
+                        break
                 
                 if not isStart:
                     if easy_button.isOver(mouse):
