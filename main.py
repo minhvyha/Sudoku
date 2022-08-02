@@ -96,22 +96,22 @@ def main():
                 
                 if not isStart:
                     if easy_button.isOver(mouse):
-                        MODE = 23
+                        MODE = 30
                     elif medium_button.isOver(mouse):
-                        MODE = 20
+                        MODE = 27
                     elif hard_button.isOver(mouse):
-                        MODE = 17
+                        MODE = 24
                     if MODE:
                         isStart = True
                         BOARD.MakeSudoku(MODE)
                     continue
                 if isWin != None:
                     if easy_button.isOver(mouse):
-                        MODE = 23
+                        MODE = 30
                     elif medium_button.isOver(mouse):
-                        MODE = 20
+                        MODE = 27
                     elif hard_button.isOver(mouse):
-                        MODE = 17
+                        MODE = 24
                     if MODE:
                         isWin = None
                         BOARD.MakeSudoku(MODE)

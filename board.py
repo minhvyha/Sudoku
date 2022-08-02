@@ -185,10 +185,9 @@ class Board:
         empty = 0
         for i in self.board:
             for j in i:
-                if j.value != 0:
+                if j.value == 0:
                     empty += 1
         haveSolution = self.solution(empty)
-        print(haveSolution)
         return haveSolution
 
         
