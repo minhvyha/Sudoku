@@ -50,7 +50,7 @@ class Board:
 
     def MakeSudoku(self, difficulty):
         self.makeBoard(difficulty)
-        while not self.solveSudoku():
+        while not self.solveSudoku(81 - difficulty):
             self.makeBoard(difficulty)
     
     def makeBoard(self, difficulty):
@@ -181,23 +181,17 @@ class Board:
                 thickness = 3
             pygame.draw.line(self.WIN, DGREY, (i * self.width // 9, self.padding), (i * self.width // 9, self.height + self.padding), thickness)
 
-    def solveSudoku(self):
-        empty = 0
-        for i in self.board:
-            for j in i:
-                if j.value == 0:
-                    empty += 1
-        haveSolution = self.solution(empty)
-        return haveSolution
+    def solveSudoku(self, empty):
+        return self.solution(empty)
 
         
     def solution(self, empty, row=0, col=0):
         if empty == 0:
             return True
-        if self.board[row][col].value!= 0:
+        if self.board[row][col].value != 0:
             if self.solution(empty, row=row + 1 if col == 8 else row, col=col + 1 if col != 8 else 0):
                 return True
-            return
+            return False
 
         for i in range(1, 10):
             if self.CheckValid(row, col, i):
