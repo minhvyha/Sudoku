@@ -18,8 +18,7 @@ ORANGE = (255, 165, 0)
 GREY = (180, 180, 180)
 DGREY = (50, 50, 50)
 TURQUOISE = (64, 224, 208)
-BLUE_TEXT = (50,150,230)
-
+BLUE_TEXT = (4,116,227)
 
 
 
@@ -133,8 +132,8 @@ class Board:
             y = row * (self.height // 9) + self.padding + row * 0.45
             x = col * (self.width // 9) + col * 0.45
             box = pygame.Surface((500 // 9 + 1,500 // 9 + 1))
-            box.set_alpha(500)
-            box.fill((175,205,255))
+            box.set_alpha(300)
+            box.fill((188,222,251))
             self.WIN.blit(box, (x, y))
 
     def error(self):
