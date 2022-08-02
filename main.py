@@ -27,11 +27,12 @@ BLACK = (0, 0, 0)
 PURPLE = (128, 0, 128)
 ORANGE = (255, 165, 0)
 GREY = (180, 180, 180)
-DGREY = (75, 75, 75)
+DGREY = (65, 65, 65)
 TURQUOISE = (64, 224, 208)
 
 
 FONT = pygame.font.SysFont('comicsans', 30)
+FONT_MEDIUM = pygame.font.SysFont('comicsans', 60)
 FONT_BIG = pygame.font.SysFont('comicsans', 80)
 
 # Start button
@@ -43,6 +44,9 @@ hard_button = Button(WIN, (DGREY), RED, WIDTH // 2, 390, 200, 70, 'Hard')
 new = Button(WIN, (WHITE), BLACK, BOARD_WIDTH + 100, 540, 150, 60, 'New Game')
 check = Button(WIN, (WHITE), BLACK, BOARD_WIDTH + 100, 625, 150, 60, 'Check')
 pause = Pause(WIN, 650, 20, 50)
+
+resume = Button(WIN, (DGREY), WHITE, WIDTH // 2, 250, 170, 60, 'Resume')
+quit_button = Button(WIN, (DGREY), WHITE, WIDTH // 2, 340, 170, 60, 'Quit')
 
 BACKGROUND = pygame.image.load('assets/img/start.png')
 
@@ -115,12 +119,17 @@ def main():
                 else:
                     if new.isOver(mouse):
                         BOARD.MakeSudoku(MODE)
+                    elif pause.isOver(mouse):
+                        isPause = True
         if ERROR >= 3:
             isWin = False
             MODE = None
             
         if isWin != None:
             end(isWin)
+            continue
+        if isPause:
+            draw_pause()
             continue
         if not isStart:
             draw_start()
@@ -222,6 +231,15 @@ def end(win):
 
     pygame.display.update()
 
+
+def draw_pause():
+    WIN.fill((WHITE))
+    text = 'PAUSE'
+    message = FONT_MEDIUM.render(text, 1, BLACK)
+    WIN.blit(message, (WIDTH // 2 - message.get_width() // 2, 120))
+    resume.draw()
+    quit_button.draw()
+    pygame.display.update()
 
 # Execute all the code
 if __name__ == '__main__':
