@@ -1,8 +1,13 @@
+from tracemalloc import start
 import pygame
 from board import Board
 import time
 from button import Button, Pause
 from pygame import mixer
+
+start_time = time.time()
+
+end_time = None
 
 # initialize pygame library
 pygame.init() 
@@ -33,7 +38,7 @@ TURQUOISE = (64, 224, 208)
 
 FONT = pygame.font.SysFont('comicsans', 30)
 FONT_MEDIUM = pygame.font.SysFont('comicsans', 60)
-FONT_BIG = pygame.font.SysFont('comicsans', 80)
+FONT_BIG = pygame.font.SysFont('comicsans', 65)
 
 # Start button
 easy_button = Button(WIN, (DGREY), GREEN, WIDTH // 2, 210, 200, 70, 'Easy')
@@ -53,16 +58,17 @@ BACKGROUND = pygame.image.load('assets/img/start.png')
 # Set up the board
 BOARD = Board(WIN, BOARD_WIDTH, BOARD_HEIGHT, WIDTH - BOARD_WIDTH)
 
-FPS = 30
+FPS = 160
 MODE = None
 ERROR = 0
 
 mixer.music.load('assets/music/background.wav')
-mixer.music.play(-1)
+# mixer.music.play(-1)
 
 def main():
     global MODE
     global ERROR
+    global end_time
     isSleep = False
     isRun = True
     isStart = False
@@ -71,7 +77,7 @@ def main():
     isPause = False
     # Loop forever to draw up the window every second
     while isRun:
-        
+        global start_time
         # Get any event from user such as mouse click, key pressed
         clock.tick(FPS)
         mouse = pygame.mouse.get_pos()
@@ -104,6 +110,8 @@ def main():
                     if MODE:
                         isStart = True
                         BOARD.MakeSudoku(MODE, False)
+                        start_time = time.time()
+                        end_time = None
                     continue
                 if isWin != None:
                     if easy_button.isOver(mouse):
@@ -116,6 +124,8 @@ def main():
                         isWin = None
                         BOARD.MakeSudoku(MODE, False)
                         ERROR = 0
+                        start_time = time.time()
+                        end_time = None
                     continue
 
                 x, y = mouse
@@ -125,13 +135,21 @@ def main():
                 else:
                     if new.isOver(mouse):
                         BOARD.MakeSudoku(MODE, True)
+                        start_time = time.time()
+                        end_time = None
                     elif pause.isOver(mouse):
                         isPause = True
                     elif check.isOver(mouse):
                         BOARD.solveSudoku(True)
+        if BOARD.checkWin():
+            isWin = True
+            if not end_time:
+                end_time = time.time()
         if ERROR >= 3:
             isWin = False
             MODE = None
+            if not end_time:
+                end_time = time.time()
             
         if isWin != None:
             end(isWin)
@@ -177,7 +195,6 @@ def draw():
     # Make changes to the window
     WIN.fill((WHITE))
 
-
     if BOARD.curr:
         row, col = BOARD.curr
 
@@ -205,6 +222,8 @@ def draw():
     check.draw(BLACK)
     pause.draw()
     WIN.blit(error, (10, 10))
+    curr_time = FONT.render(convert_time(int(time.time() - start_time)), 1, BLACK)
+    WIN.blit(curr_time, (10, 60))
     # Update and display all the changes
     pygame.display.update()
 
@@ -232,7 +251,9 @@ def end(win):
     check.draw(BLACK)
     WIN.blit(box, (0 ,0))
     WIN.blit(error, (10, 10))
-    WIN.blit(message, (WIDTH // 2 - message.get_width() // 2, 60))
+    WIN.blit(message, (WIDTH // 2 - message.get_width() // 2, 85))
+    curr_time = FONT.render(convert_time(int(end_time - start_time)), 1, WHITE)
+    WIN.blit(curr_time, (10, 60))
     easy_button.draw()
     medium_button.draw()
     hard_button.draw()
@@ -248,6 +269,13 @@ def draw_pause():
     resume.draw()
     quit_button.draw()
     pygame.display.update()
+
+def convert_time(time):
+    hour = time // 3600
+    minute = time % 3600 // 60
+    second = time % 3600 % 60
+    return f"{hour:02d}:" + f'{minute:02d}:' + f'{second:02d}'
+
 
 # Execute all the code
 if __name__ == '__main__':

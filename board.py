@@ -213,7 +213,7 @@ class Board:
             if self.CheckValid(row, col, i):
                 self.board[row][col].value = i
                 if isDraw:
-                    time.sleep(0.03)
+                    time.sleep(0.003)
                     self.WIN.fill((255, 255, 255))
                     self.draw_grid()
                     self.draw_board()
@@ -228,6 +228,15 @@ class Board:
             for j in i:
                 if not j.lock:
                     j.value = 0
+
+    def checkWin(self):
+        for i in self.board:
+            for j in i:
+                if j.value == 0:
+                    return False
+                if j.error:
+                    return False
+        return True
 
 class Block:
     def __init__(self, WIN, row, col, width, height, padding, lock=False):
