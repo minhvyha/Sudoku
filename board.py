@@ -1,3 +1,4 @@
+from turtle import color
 import pygame
 import random
 
@@ -17,12 +18,13 @@ ORANGE = (255, 165, 0)
 GREY = (180, 180, 180)
 DGREY = (50, 50, 50)
 TURQUOISE = (64, 224, 208)
+BLUE_TEXT = (50,150,230)
 
 
 
 
 # Font
-FONT = pygame.font.SysFont('comicsans', 25)
+FONT = pygame.font.SysFont('arial', 25)
 
 
 # An object 
@@ -39,8 +41,9 @@ class Board:
 
     # Draw the board into the window
     def draw(self) -> None:
-        self.draw_select()
+        self.draw_same()
         self.error()
+        self.draw_select()
         self.draw_grid()
         self.draw_board()
      
@@ -106,7 +109,7 @@ class Board:
                 j.lock = False
                 j.value = 0
 
-    def draw_select(self):
+    def draw_same(self):
         if self.curr != None:
             row, col = self.curr
             y = row * (self.height // 9) + self.padding + row * 0.45
@@ -124,13 +127,23 @@ class Board:
                             y = i * (self.height // 9) + self.padding + i * 0.45
                             self.WIN.blit(box, (x, y))
 
+    def draw_select(self):
+        if self.curr != None:
+            row, col = self.curr
+            y = row * (self.height // 9) + self.padding + row * 0.45
+            x = col * (self.width // 9) + col * 0.45
+            box = pygame.Surface((500 // 9 + 1,500 // 9 + 1))
+            box.set_alpha(500)
+            box.fill((175,205,255))
+            self.WIN.blit(box, (x, y))
+
     def error(self):
             white_box = pygame.Surface((500 // 9 + 1,500 // 9 + 1))
             white_box.set_alpha(500)
             white_box.fill((255,255,255))
 
             box = pygame.Surface((500 // 9 + 1,500 // 9 + 1))
-            box.set_alpha(100)
+            box.set_alpha(50)
             box.fill((235,0,0)) 
 
             for i, row in enumerate(self.board):
@@ -177,8 +190,14 @@ class Block:
         self.error = None
 
     def draw(self):
+        if self.lock:
+            color = BLACK
+        elif self.error == self.value:
+            color = RED
+        else:
+            color = BLUE_TEXT
         if self.value != 0:
-            num = FONT.render(f'{self.value}', 1, BLACK)
-            self.WIN.blit(num, (self.width // 9 * self.row + (self.width // 9 // 2) - num.get_width() // 2, self.padding + (self.height // 9) * self.col + self.height // 9 // 2 - num.get_height() // 2))
+            num = FONT.render(f'{self.value}', 1, color)
+            self.WIN.blit(num, (self.width // 9 * self.row + (self.width // 9 // 2) - num.get_width() // 2 + self.row * 0.55, self.padding + (self.height // 9) * self.col + self.height // 9 // 2 - num.get_height() // 2 + self.col * 0.55))
 
 

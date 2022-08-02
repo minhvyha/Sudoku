@@ -18,7 +18,7 @@ BOARD_HEIGHT = 500
 # Board
 WIN = pygame.display.set_mode((WIDTH, HEIGHT))
 
-RED = (255, 0, 0)
+RED = (230, 0, 0)
 GREEN = (60, 255, 0)
 BLUE = (0, 0, 255)
 YELLOW = (255, 255, 120)
