@@ -63,7 +63,7 @@ MODE = None
 ERROR = 0
 
 mixer.music.load('assets/music/background.wav')
-# mixer.music.play(-1)
+mixer.music.play(-1)
 
 def main():
     global MODE
