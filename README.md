@@ -1,8 +1,6 @@
 <div align="center"><img src="preview.png"></div>
-<h1 align="center">Sudoku</h1>
-<p align="center"><strong>Description</strong>
-<br>Comment</p>
 <br/>
+<h1 align="center">Sudoku</h1>
 <div align="center"><img src="demo.gif"></img></div>
 <h2>About</h2>
 
